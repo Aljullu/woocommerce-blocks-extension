@@ -15,5 +15,12 @@
     "test:unit": "wp-scripts test-unit-js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@wordpress/hooks": "^2.4.0",
+    "@wordpress/scripts": "^3.3.0"
+  },
+  "devDependencies": {
+    "@wordpress/dependency-extraction-webpack-plugin": "^1.0.1"
+  }
 }
