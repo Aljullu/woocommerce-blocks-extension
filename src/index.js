@@ -8,12 +8,6 @@ addFilter( 'woocommerce-blocks-review-data-before', 'woocommerce-blocks-extensio
   return { ...data, rating: data.rating * 2 };
 } );
 
-addFilter( 'woocommerce-blocks-review-markup', 'woocommerce-blocks-extension', ( markup, data ) => {
-  let filteredMarkup = markup.replace( '{{ review }}', '');
-  filteredMarkup = filteredMarkup.replace( '</li>', '{{ review }}</li>' );
-  return filteredMarkup;
-} );
-
-addFilter( 'woocommerce-blocks-review-rating-markup', 'woocommerce-blocks-extension', ( markup, data ) => {
-  return `<b>&nbsp;${ data.rating }/10</b>`;
+addFilter( 'woocommerce-blocks-review-rating-template', 'woocommerce-blocks-extension', () => {
+  return ( { rating } ) => ( <span>&nbsp;{ rating }/10</span> );
 } );
