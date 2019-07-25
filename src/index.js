@@ -4,7 +4,7 @@
  */
 import { addFilter } from '@wordpress/hooks';
 
-addFilter( 'woocommerce-blocks-review-data-before', 'woocommerce-blocks-extension', ( data ) => {
+addFilter( 'woocommerce-blocks-review-args', 'woocommerce-blocks-extension', ( data ) => {
   return { ...data, rating: data.rating * 2 };
 } );
 
