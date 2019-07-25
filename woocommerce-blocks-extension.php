@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: WooCommerce Blocks Extension
- * Author: WooCommerce
- * Author URI: https://woocommerce.com/
- * Text Domain: woocommerce-block-extension
+ * Author: Albert Juhé Lluveras
+ * Author URI: https://github.com/Aljullu/
+ * Text Domain: woocommerce-blocks-extension
  * Domain Path: /languages
  * Version: 1.0.0
  *
