@@ -1,21 +1,80 @@
 /** @format */
 /**
- * External dependencies
+ * WordPress Dependencies
  */
-import { addAction, addFilter } from '@wordpress/hooks';
+const { __ } = wp.i18n;
+const { addFilter } = wp.hooks;
+const { Fragment }	= wp.element;
+const { InspectorAdvancedControls }	= wp.editor;
+const { createHigherOrderComponent } = wp.compose;
+const { PanelBody, ToggleControl } = wp.components;
 
-addFilter( 'woocommerce-blocks-review-args', 'woocommerce-blocks-extension', ( data ) => {
-	return { ...data, rating: data.rating * 2 };
-} );
+const isALlowedBlock = ( name ) => {
+	return name.startsWith( 'woocommerce/' ) || name === 'core/paragraph';
+};
 
-addAction( 'woocommerce-blocks-before-review', 'woocommerce-blocks-extension', ( template, args, context ) => {
-	console.log( `Starting to generate the template for review ${ context.review.id }` );
-} );
+addFilter(
+	'blocks.registerBlockType',
+	'woocommerce-blocks-extension',
+	( settings ) => {
+		if ( isALlowedBlock( settings.name ) ) {
+			settings.attributes = Object.assign( settings.attributes, {
+				withoutLoremIpsumClass: {
+					type: 'boolean',
+					default: true,
+				},
+			});
+		}
 
-addAction( 'woocommerce-blocks-after-review', 'woocommerce-blocks-extension', ( template, args, context ) => {
-	console.log( `Review ${ context.review.id } template ready` );
-} );
+		return settings;
+	},
+);
 
-addFilter( 'woocommerce-blocks-review-rating-template', 'woocommerce-blocks-extension', () => {
-	return ( { rating } ) => ( <span>&nbsp;{ rating }/10</span> );
-} );
+addFilter(
+	'editor.BlockEdit',
+	'woocommerce-blocks-extension',
+	createHigherOrderComponent( ( BlockEdit ) => {
+		return ( props ) => {
+			const {
+				name,
+				attributes,
+				setAttributes,
+				isSelected,
+			} = props;
+
+			const {
+				withoutLoremIpsumClass,
+			} = attributes;
+
+			return (
+				<Fragment>
+					<BlockEdit {...props} />
+					{ isALlowedBlock( name ) && isSelected &&
+						<InspectorAdvancedControls>
+							<ToggleControl
+								label={ __( 'Remove lorem-ipsum class' ) }
+								checked={ !! withoutLoremIpsumClass }
+								onChange={ () => setAttributes( {  withoutLoremIpsumClass: ! withoutLoremIpsumClass } ) }
+								help={ !! withoutLoremIpsumClass ? __( 'Hidden lorem-ipsum class.' ) : __( 'Showing lorem-ipsum class.' ) }
+							/>
+						</InspectorAdvancedControls>
+					}
+				</Fragment>
+			);
+		};
+	}, 'withAdvancedControls'),
+);
+
+addFilter(
+	'blocks.getSaveContent.extraProps',
+	'woocommerce-blocks-extension',
+	( extraProps, blockType, attributes ) => {
+		const { withoutLoremIpsumClass } = attributes;
+
+		if ( isALlowedBlock( blockType.name ) && typeof withoutLoremIpsumClass !== 'undefined' && ! withoutLoremIpsumClass ) {
+			extraProps.className = [ extraProps.className, 'lorem-ipsum' ].join( ' ' );
+		}
+
+		return extraProps;
+	},
+);

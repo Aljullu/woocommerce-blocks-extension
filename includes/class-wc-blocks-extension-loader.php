@@ -12,7 +12,6 @@ class WC_Blocks_Extension {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
 		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'register_assets' ) );
 	}
 
