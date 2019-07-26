@@ -13,7 +13,7 @@ class WC_Blocks_Extension {
 	 */
 	public function __construct() {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
+		add_action( 'enqueue_block_editor_assets', array( __CLASS__, 'register_assets' ) );
 	}
 
 	public static function register_assets() {
