@@ -17,7 +17,7 @@ class WC_Blocks_Extension {
 	}
 
 	public static function register_assets() {
-		wp_enqueue_script( 'wc-blocks-extension', plugins_url( 'build/index.js', __DIR__ ), array(), '1.0.0', true );
+		wp_enqueue_script( 'wc-blocks-extension', plugins_url( 'build/index.js', __DIR__ ), array( 'wc-vendors', 'wc-blocks' ), '1.0.0', false );
 	}
 }
 
