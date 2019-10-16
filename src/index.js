@@ -7,7 +7,7 @@ import { addFilter } from '@wordpress/hooks';
 import { registerBlockType } from '@wordpress/blocks';
 import Gridicon from 'gridicons';
 
-addFilter( 'woocommerce_blocks_all_products_children', 'woocommerce-admin-extensions-examples', ( components ) => {
+addFilter( 'woocommerce_blocks_product_list_components', 'woocommerce-admin-extensions-examples', ( components ) => {
 	components[ 'woocommerce-blocks-extension/price-level' ] = PriceLevel;
 	return components;
 } );
